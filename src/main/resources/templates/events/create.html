@@ -4,16 +4,26 @@
 <body class="container">
 <h1>Create Event</h1>
 <nav th:replace="fragments" :: navigation></nav>
+
+<!--https://www.youtube.com/watch?v=gzk__EWfvaw 2.6 model binding-->
 <form method="post" action="/events/create">
     <div class="form-group">
         <label>Name
-    <input type = "text" Name="eventName" class="form-control">
+<!--    <input type = "text" Name="eventName" class="form-control">-->
+            <input type = "text" Name="name" class="form-control">
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Description
+<!--            <input type = "text" Name="eventDescription" class="form-control">-->
+            <input type = "text" Name="description" class="form-control">
         </label>
     </div>
     <div class="form-group">
     <input type="Submit" Value="Create Event" class="btn btn-success">
     </div>
-</form>
+    </form>
+
 </body>
 </html>
 
