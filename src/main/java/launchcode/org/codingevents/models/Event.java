@@ -1,21 +1,49 @@
 package launchcode.org.codingevents.models;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 //https://www.youtube.com/watch?v=tDfwNJ3Nk_M //p2.1 crated model, updated view and class for adding
 //https://www.youtube.com/watch?v=5dtyojtADbk //2.2 added  disc feild
 //https://www.youtube.com/watch?v=ijnIgreiNHU&t=7s //2.3added ID & next ID and hash
 //https://www.youtube.com/watch?v=8AQtYZ_q57M //2.4
+//https://www.youtube.com/watch?v=1aZxU0-dhgw //3.1 Annotation
+
 public class Event {
 
     private int id;
     private static int nextId=1;
-    private String name;
-    public String discription;
 
-    public Event(String name, String discription) {
+    @NotBlank(message="Name is required")  //cant put in white spaves
+    @Size(min=3, max=50, message="Name must be between 3 and 50 characters")
+    private String name;
+
+    @Size(max=500, message="Description too long!")
+    public String description;
+
+    @NotBlank(message = " Email is Required")
+    @Email(message = "Invalid email. Try again.")
+    private String contactEmail;
+
+    //https://www.youtube.com/watch?v=FOvBYJxGPTQ 3.4 2:40
+    private EventType type;
+
+    public Event(String name, String description, String contactEmail, EventType type) {
+        this();  //3.3 12:00  Added this which calles other constructor. Reason is that the ID will default to 0.
+        //Meaning that each event will overwright the first. However this means that All id's will be even.
+        //The rendering of the displayCreatEventForm will create an ID, and then another will be created when saving.
         this.name = name;
-        this.discription = discription;
+        this.description = description;
+        this.contactEmail = contactEmail;
+        this.type = type;
+
+    }
+
+//https://www.youtube.com/watch?v=yc-bSDSDuKg 3.3 created early, changed later
+    //12:00 Cut the lins from other cunstructor
+    public Event(){
         this.id=nextId;
         nextId++;
     }
@@ -28,16 +56,32 @@ public class Event {
         this.name = name;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
     }
 
     //net concept

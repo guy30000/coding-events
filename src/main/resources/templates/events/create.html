@@ -5,20 +5,44 @@
 <h1>Create Event</h1>
 <nav th:replace="fragments" :: navigation></nav>
 
+<p th:text="${errorMsg}" style="color:red;"></p>
+
+
 <!--https://www.youtube.com/watch?v=gzk__EWfvaw 2.6 model binding-->
 <form method="post" action="/events/create">
     <div class="form-group">
         <label>Name
 <!--    <input type = "text" Name="eventName" class="form-control">-->
-            <input type = "text" Name="name" class="form-control">
+<!--            <input type = "text" Name="name" class="form-control">-->
+<!--            //https://www.youtube.com/watch?v=yc-bSDSDuKg //3.3 passing errors to view-->
+            <input th:field="${event.name}" class="form-control">
         </label>
+        <p class="error" th:errors="${event.name}"></p>
     </div>
     <div class="form-group">
         <label>Description
-<!--            <input type = "text" Name="eventDescription" class="form-control">-->
-            <input type = "text" Name="description" class="form-control">
+            <input th:field="${event.description}" class="form-control">
+        </label>
+        <p class="error" th:errors="${event.description}"></p>
+    </div>
+    <div class="form-group">
+        <label>Contact Email
+            <input th:field="${event.contactEmail}" class="form-control">
+        </label>
+        <p class="error" th:errors="${event.contactEmail}"></p>
+    </div>
+<!--    https://www.youtube.com/watch?v=FOvBYJxGPTQ  3.4 Enum 4:20 -->
+    <div class="form-group">
+        <label>Type
+            <Select th:field="${event.type}" class="form-control">
+                <option th:each="type : ${types}"
+                        th:value="${type}"
+                        th:text="${type.displayName}">
+                </option>
+            </Select>
         </label>
     </div>
+
     <div class="form-group">
     <input type="Submit" Value="Create Event" class="btn btn-success">
     </div>

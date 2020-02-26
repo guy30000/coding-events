@@ -2,14 +2,18 @@ package launchcode.org.codingevents.controllers;
 
 import launchcode.org.codingevents.data.EventData;
 import launchcode.org.codingevents.models.Event;
+import launchcode.org.codingevents.models.EventType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 //https://www.youtube.com/watch?v=gzk__EWfvaw 2.6 model binding
+//https://www.youtube.com/watch?v=omSQO6721cU 3.2 // more on valadation (Controllers
 
 @Controller
 @RequestMapping("events")
@@ -23,18 +27,25 @@ public class EventController {
     }
 
     //lives at /events/create https://www.youtube.com/watch?v=lgT962si4eQ
+    //https://www.youtube.com/watch?v=yc-bSDSDuKg //3.3 passing errors to view
     @GetMapping("create")
-    public String renderCreatEventForm(Model model){
+    public String displayCreatEventForm(Model model){
         model.addAttribute("title", "Create Event");
+        model.addAttribute(new Event());
+        model.addAttribute("types", EventType.values());  //created early and corrected 8:40  vid3.4
         return "events/create";
     }
 
     //lives at /events/create https://www.youtube.com/watch?v=LnpJcq33uoM
     //https://www.youtube.com/watch?v=gzk__EWfvaw 2.6 model binding
+    //https://www.youtube.com/watch?v=omSQO6721cU 3.2 // more on valadation (Controllers
     @PostMapping("create")
-    //public String createEvent(@RequestParam String eventName, @RequestParam String eventDescription) {
-    public String createEvent(@ModelAttribute Event newEvent) {
-        //EventData.add(new Event(eventName, eventDescription));
+    public String processCreateEvent(@ModelAttribute @Valid Event newEvent, Errors errors, Model model) {
+        if (errors.hasErrors()){
+            model.addAttribute("title", "Create Event");
+            //model.addAttribute("errorMsg", "Bad data!"); //removed in 3.3
+            return "events/create";
+        }
         EventData.add(newEvent);
         return "redirect:";  //redirects to displayAllEvents controller
     }
