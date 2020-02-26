@@ -1,5 +1,8 @@
 package launchcode.org.codingevents.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -11,10 +14,13 @@ import java.util.Objects;
 //https://www.youtube.com/watch?v=8AQtYZ_q57M //2.4
 //https://www.youtube.com/watch?v=1aZxU0-dhgw //3.1 Annotation
 
+//https://www.youtube.com/watch?v=YAISqYMOIAw 4.2 persistants
+@Entity
 public class Event {
 
+    @Id
+    @GeneratedValue
     private int id;
-    private static int nextId=1;
 
     @NotBlank(message="Name is required")  //cant put in white spaves
     @Size(min=3, max=50, message="Name must be between 3 and 50 characters")
@@ -31,7 +37,8 @@ public class Event {
     private EventType type;
 
     public Event(String name, String description, String contactEmail, EventType type) {
-        this();  //3.3 12:00  Added this which calles other constructor. Reason is that the ID will default to 0.
+        //this(); 4.2 removed this for database
+        //3.3 12:00  Added this which calles other constructor. Reason is that the ID will default to 0.
         //Meaning that each event will overwright the first. However this means that All id's will be even.
         //The rendering of the displayCreatEventForm will create an ID, and then another will be created when saving.
         this.name = name;
@@ -43,10 +50,9 @@ public class Event {
 
 //https://www.youtube.com/watch?v=yc-bSDSDuKg 3.3 created early, changed later
     //12:00 Cut the lins from other cunstructor
+    //4.2 removed ID
     public Event(){
-        this.id=nextId;
-        nextId++;
-    }
+   }
 
     public String getName() {
         return name;
