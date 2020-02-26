@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1>Coding Events</h1>
+<nav th:replace="fragments" :: navigation></nav>
+<p th:unless="${cats} and ${cats.size()}">No Categories available</p>
+
+<table class="table table-striped">
+
+    <tr th:each="cat : ${cats}">
+
+        <td th:text="${cat.name}"></td>
+
+    </tr>
+    <li class="nav-item"><a class="nav-link" href="/cat/create">Add Category</a></li>
+</table>
+
+
+</body>
+</html>

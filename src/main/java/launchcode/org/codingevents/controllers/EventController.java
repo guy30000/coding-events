@@ -1,6 +1,7 @@
 package launchcode.org.codingevents.controllers;
 
 //import launchcode.org.codingevents.data.EventData;
+import launchcode.org.codingevents.data.EventCategoryRepository;
 import launchcode.org.codingevents.data.EventRepository;
 import launchcode.org.codingevents.models.Event;
 import launchcode.org.codingevents.models.EventType;
@@ -23,6 +24,8 @@ public class EventController {
 //https://www.youtube.com/watch?v=0eug2HI7rbo 4.3  //connecting controller to repo
     @Autowired
     private EventRepository eventRepository;
+    @Autowired
+    private EventCategoryRepository eventCatRepo;
 
     @GetMapping
     public String displayAllEvents(Model model){
