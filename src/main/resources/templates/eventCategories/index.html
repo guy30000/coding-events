@@ -10,7 +10,9 @@
 
     <tr th:each="cat : ${cats}">
 
-        <td th:text="${cat.name}"></td>
+<!--        <td th:text="${cat.name}"></td>-->
+<!--        https://www.youtube.com/watch?v=RLykFBY9Rys changed to be a link 5.3 15:20-->
+        <td><a th:text="${cat.name}" th:href="'/events?categoryId=' + ${cat.id}"></a>  </td>
 
     </tr>
     <li class="nav-item"><a class="nav-link" href="/cat/create">Add Category</a></li>

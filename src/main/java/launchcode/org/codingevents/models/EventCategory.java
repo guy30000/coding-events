@@ -1,24 +1,22 @@
 package launchcode.org.codingevents.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
+//https://www.youtube.com/watch?v=GKOCCjn86yk&t=117s changed 5.1 5:30
 @Entity
-public class EventCategory {
+public class EventCategory extends AbstractEntity{
 
-    @Id
-    @GeneratedValue
-    private int id;
 
     @Size(min=3, message="Name must be at least 3 characters long")
     private String name;
 
-//    @ManyToOne
-//    private EventCategory type;
+    //https://www.youtube.com/watch?v=RLykFBY9Rys 5.3 One-to-Many
+    @OneToMany(mappedBy = "eventCat")
+    private final List<Event> events = new ArrayList<>();
+
 
     //public EventCategory(@Size(min=3, message="Name must be at least 3 characters long")String name) {
     // https://www.youtube.com/watch?v=GKOCCjn86yk 5.1 appears like above in video (cuts after "character" so guessed rest) but doesnt work
@@ -28,10 +26,6 @@ public class EventCategory {
 
     public EventCategory(){}
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -40,12 +34,8 @@ public class EventCategory {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EventCategory that = (EventCategory) o;
-        return id == that.id && name.equals(that.name);
+    public List<Event> getEvents() {
+        return events;
     }
 
     @Override
@@ -53,8 +43,4 @@ public class EventCategory {
         return name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 }

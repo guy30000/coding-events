@@ -33,12 +33,13 @@
     </div>
 <!--    https://www.youtube.com/watch?v=FOvBYJxGPTQ  3.4 Enum 4:20 -->
     <div class="form-group">
-        <label>Type
-            <Select th:field="${event.type}" class="form-control">
-                <option th:each="type : ${types}"
-                        th:value="${type}"
-                        th:text="${type.displayName}">
+        <label>Category
+            <Select th:field="${event.eventCat}" class="form-control">
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}">
                 </option>
+                <p class="error" th:errors="${event.eventCat}"></p>
             </Select>
         </label>
     </div>

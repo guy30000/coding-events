@@ -4,7 +4,7 @@ package launchcode.org.codingevents.controllers;
 import launchcode.org.codingevents.data.EventCategoryRepository;
 import launchcode.org.codingevents.data.EventRepository;
 import launchcode.org.codingevents.models.Event;
-import launchcode.org.codingevents.models.EventType;
+import launchcode.org.codingevents.models.EventCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //https://www.youtube.com/watch?v=gzk__EWfvaw 2.6 model binding
 //https://www.youtube.com/watch?v=omSQO6721cU 3.2 // more on valadation (Controllers
@@ -28,10 +29,22 @@ public class EventController {
     private EventCategoryRepository eventCatRepo;
 
     @GetMapping
-    public String displayAllEvents(Model model){
-        model.addAttribute("title", "All Events");
+    public String displayAllEvents(@RequestParam(required = false) Integer categoryId, Model model){
+        if (categoryId==null) {
+            model.addAttribute("title", "All Events");
 //        model.addAttribute("events", EventData.getAll());
-        model.addAttribute("events", eventRepository.findAll());
+            model.addAttribute("events", eventRepository.findAll());
+        } else {
+            //https://www.youtube.com/watch?v=RLykFBY9Rys 5.3 8:30 //explains Optional. this showd
+            Optional<EventCategory> result = eventCatRepo.findById(categoryId);
+            if (!result.isPresent()){
+                model.addAttribute("title", "Invalid Category ID: " + categoryId);
+            } else {
+                EventCategory category = result.get();
+                model.addAttribute("title", "Events in category: " + category.getName());
+                model.addAttribute("events", category.getEvents());
+            }
+        }
         return "events/index";
     }
 
@@ -41,7 +54,7 @@ public class EventController {
     public String displayCreatEventForm(Model model){
         model.addAttribute("title", "Create Event");
         model.addAttribute(new Event());
-        model.addAttribute("types", EventType.values());  //created early and corrected 8:40  vid3.4
+        model.addAttribute("categories",eventCatRepo.findAll());  //created early and corrected 8:40  vid3.4
         return "events/create";
     }
 

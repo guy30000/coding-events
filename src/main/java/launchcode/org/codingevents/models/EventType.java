@@ -1,7 +1,7 @@
 package launchcode.org.codingevents.models;
 
 //https://www.youtube.com/watch?v=FOvBYJxGPTQ 3.4
-
+//https://www.youtube.com/watch?v=aFr_E2T7zZ8 5.2 Diconnected this class. Now doing nothing
 public enum EventType {
 
     CONFERENCE("Conference"),
