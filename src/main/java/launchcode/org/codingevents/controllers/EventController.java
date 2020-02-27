@@ -65,6 +65,8 @@ public class EventController {
     public String processCreateEvent(@ModelAttribute @Valid Event newEvent, Errors errors, Model model) {
         if (errors.hasErrors()){
             model.addAttribute("title", "Create Event");
+            model.addAttribute("event", newEvent);
+            model.addAttribute("categories",eventCatRepo.findAll());
             return "events/create";
         }
         eventRepository.save(newEvent); //6.1 9:45 new concept cascade (in model/event)
@@ -91,6 +93,21 @@ public class EventController {
         return "redirect:";
 
     }
+
+    //https://www.youtube.com/watch?v=bLK-VtZgx0Q 6.2 copied controller
+    @GetMapping("detail")
+    public String displayEventDetails(@RequestParam Integer eventId, Model model ){
+        Optional<Event> result = eventRepository.findById(eventId);
+        if(!result.isPresent()){
+            model.addAttribute("title", "Invalid Event ID: " +eventId);
+        } else {
+            Event event = result.get();
+            model.addAttribute("title", event.getName() + " Details");
+            model.addAttribute("event", event);
+        }
+        return "events/detail";
+    }
+
 
 
 }
