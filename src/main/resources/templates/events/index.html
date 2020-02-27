@@ -14,14 +14,16 @@
         <th>Description</th>
         <th>Contact Email</th>
         <th>Category</th>
-
+        eventDetails
     </tr>
     </thead>
     <tr th:each="event : ${events}">
         <td th:text="${event.id}"></td>
         <td th:text="${event.name}"></td>
-        <td th:text="${event.description}"></td>
-        <td th:text="${event.contactEmail}"></td>
+<!--        <td th:text="${event.description}"></td>  this changed in 6.1 8:00-->
+<!--        <td th:text="${event.contactEmail}"></td>-->
+        <td th:text="${event.eventDetails.description}"></td>
+        <td th:text="${event.eventDetails.contactEmail}"></td>
         <td th:text="${event.eventCat.name}"></td>
     </tr>
 </table>

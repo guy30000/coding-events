@@ -1,7 +1,10 @@
 package launchcode.org.codingevents.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,12 +26,11 @@ public class Event extends AbstractEntity { //5.1 added extends 2:50
     @Size(min=3, max=50, message="Name must be between 3 and 50 characters")
     private String name;
 
-    @Size(max=500, message="Description too long!")
-    public String description;
-
-    @NotBlank(message = " Email is Required")
-    @Email(message = "Invalid email. Try again.")
-    private String contactEmail;
+    //https://www.youtube.com/watch?v=0yNIbAcd4ng 6.1  1to1 moved description and email to Details
+    @OneToOne(cascade = CascadeType.ALL ) ////6.1 9:45 cascade part added and explained
+    @Valid
+    @NotNull
+    public EventDetails eventDetails;
 
     //https://www.youtube.com/watch?v=FOvBYJxGPTQ 3.4 2:40
     //https://www.youtube.com/watch?v=aFr_E2T7zZ8 5.2 disconnected from enum in place of Category creation
@@ -38,14 +40,12 @@ public class Event extends AbstractEntity { //5.1 added extends 2:50
     @NotNull(message="Category is required")
     private EventCategory eventCat;
 
-    public Event(String name, String description, String contactEmail, EventCategory eventCat) {
+    public Event(String name, EventCategory eventCat) {
         //this(); 4.2 removed this for database
         //3.3 12:00  Added this which calles other constructor. Reason is that the ID will default to 0.
         //Meaning that each event will overwright the first. However this means that All id's will be even.
         //The rendering of the displayCreatEventForm will create an ID, and then another will be created when saving.
         this.name = name;
-        this.description = description;
-        this.contactEmail = contactEmail;
         this.eventCat = eventCat;
 
     }
@@ -64,32 +64,14 @@ public class Event extends AbstractEntity { //5.1 added extends 2:50
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+
+    public EventDetails getEventDetails() {
+        return eventDetails;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEventDetails(EventDetails eventDetails) {
+        this.eventDetails = eventDetails;
     }
-
-
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
-//    public EventType getType() {
-//        return type;
-//    }
-
-//    public void setType(EventType type) {
-//        this.type = type;
-//    }
-
 
     public EventCategory getEventCat() {
         return eventCat;

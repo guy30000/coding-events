@@ -65,11 +65,9 @@ public class EventController {
     public String processCreateEvent(@ModelAttribute @Valid Event newEvent, Errors errors, Model model) {
         if (errors.hasErrors()){
             model.addAttribute("title", "Create Event");
-            //model.addAttribute("errorMsg", "Bad data!"); //removed in 3.3
             return "events/create";
         }
-//        EventData.add(newEvent);
-        eventRepository.save(newEvent);
+        eventRepository.save(newEvent); //6.1 9:45 new concept cascade (in model/event)
         return "redirect:";  //redirects to displayAllEvents controller
     }
 
