@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1>Coding Events</h1>
+<nav th:replace="fragments" :: navigation></nav>
+
+<!--https://www.youtube.com/watch?v=1qMaEv_CJ6k created 6.4-->
+<form method="post">
+    <div class="form-group">
+        <input type="hidden" th:field="${eventTag.event}"> <!--21:00 remmoved the Value as it is overwritten byt the field-->
+        <select th:field="${eventTag.tag}">
+            <option th:each="tag: ${tags}"
+                    th:value="${tag.id}"
+                    th:text="${tag.name}"></option>
+        </select>
+    </div>
+    <input type = "submit" class="btn btn-success" value="Add Tag">
+</form>
+
+
+
+</body>
+</html>

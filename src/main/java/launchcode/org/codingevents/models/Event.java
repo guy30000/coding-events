@@ -1,14 +1,13 @@
 package launchcode.org.codingevents.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 //https://www.youtube.com/watch?v=tDfwNJ3Nk_M //p2.1 crated model, updated view and class for adding
 //https://www.youtube.com/watch?v=5dtyojtADbk //2.2 added  disc feild
@@ -31,6 +30,11 @@ public class Event extends AbstractEntity { //5.1 added extends 2:50
     @Valid
     @NotNull
     public EventDetails eventDetails;
+
+    //https://www.youtube.com/watch?v=qtbkUXAjpt4&t=110s 6.3 Many-to-Many
+    @ManyToMany
+    private final List<Tag> tags = new ArrayList<>();
+
 
     //https://www.youtube.com/watch?v=FOvBYJxGPTQ 3.4 2:40
     //https://www.youtube.com/watch?v=aFr_E2T7zZ8 5.2 disconnected from enum in place of Category creation
@@ -79,6 +83,14 @@ public class Event extends AbstractEntity { //5.1 added extends 2:50
 
     public void setEventCat(EventCategory eventCat) {
         this.eventCat = eventCat;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+    //6.3 2:00
+    public void addTag(Tag tag){
+        this.tags.add(tag);
     }
 
     //net concept
