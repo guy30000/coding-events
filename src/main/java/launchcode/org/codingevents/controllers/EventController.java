@@ -34,12 +34,13 @@ public class EventController {
     private TagRepository tagRepository;
 
     @GetMapping
-    public String displayAllEvents(@RequestParam(required = false) Integer categoryId, Model model) {
-        if (categoryId == null) {
+    public String displayAllEvents(@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) Integer tagId, Model model) {
+        if (categoryId == null && tagId == null) {
+//        if (categoryId == null && tagId == null) {   //changed this when getting tags to work like catagories.
             model.addAttribute("title", "All Events");
-//        model.addAttribute("events", EventData.getAll());
             model.addAttribute("events", eventRepository.findAll());
-        } else {
+//        model.addAttribute("events", EventData.getAll());
+        } else if (categoryId != null){
             //https://www.youtube.com/watch?v=RLykFBY9Rys 5.3 8:30 //explains Optional. this showd
             Optional<EventCategory> result = eventCatRepo.findById(categoryId);
             if (!result.isPresent()) {
@@ -49,6 +50,16 @@ public class EventController {
                 model.addAttribute("title", "Events in category: " + category.getName());
                 model.addAttribute("events", category.getEvents());
             }
+        } else if (tagId != null){   //added this to get tags working like catagories
+            Optional<Tag> resultV = tagRepository.findById(tagId);
+            if (!resultV.isPresent()){
+                model.addAttribute("title", "Invalid Tag ID: " + tagId);
+            } else {
+                Tag thisTag = resultV.get();
+                model.addAttribute("title", "Events with tag: " + thisTag.getName());
+                model.addAttribute("events", thisTag.getEvents());
+            }
+
         }
         return "events/index";
     }
@@ -133,17 +144,17 @@ public class EventController {
     public String processAddTagForm(@ModelAttribute @Valid EventTagDTO eventTagDTO, Model model, Errors errors){
         System.out.println("test1");
         if (!errors.hasErrors()){
-            System.out.println("test2");
-            Event event = eventTagDTO.getEvent();
-            Tag tag = eventTagDTO.getTag();
-            System.out.println("tag pre if " + tag);
-            if (!event.getTags().contains(tag)){
-                System.out.println("test tag");
-                System.out.println("tag- "+tag);
-                event.addTag(tag);
-                eventRepository.save(event);
-            }
-            return "redirect:detail?eventId=" + event.getId();
+                System.out.println("test2");
+                Event event = eventTagDTO.getEvent();
+                Tag tag = eventTagDTO.getTag();
+                System.out.println("tag pre if " + tag);
+                if (!event.getTags().contains(tag)){
+                    System.out.println("test tag");
+                    System.out.println("tag- "+tag);
+                    event.addTag(tag);
+                    eventRepository.save(event);
+                }
+                return "redirect:detail?eventId=" + event.getId();
         }
         System.out.println("test3");
         return "redirect:events/add-tag.html";  //"When you have a form submission you should always have a redirect" 6.4 18:45

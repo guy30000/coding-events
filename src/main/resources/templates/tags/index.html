@@ -2,18 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body class="container">
-<h1>View Tags</h1>
+<h1 th:text="${title}">Default Title</h1>
 <nav th:replace="fragments" :: navigation></nav>
 <!--https://www.youtube.com/watch?v=bLK-VtZgx0Q 6.2 2:21 exampl;e of how this view should look-->
-
 <p th:unless="${tags} and ${tags.size()}">No Tags available</p>
 
 <table class="table table-striped">
 
     <tr th:each="tag : ${tags}">
-        <td><a th:text="${tag.displayName}" th:href="'/events?categoryId=' + ${tag.id}"></a>  </td>
+
+
+        <td><a th:text="${tag.displayName}" th:href="'/events?tagId=' + ${tag.id}"></a>  </td>
     </tr>
-    <li class="nav-item"><a class="nav-link" href="/tags/create">Add Tag</a></li>
+    <a class="nav-item"><a class="nav-link" href="/tags/create">Add Tag</a>
 </table>
 
 
